@@ -23,7 +23,8 @@ The application can be started on Docker using the following command:
 $ docker pull slaaavyn/smart-home:latest
 $ docker run \
     --name=<container_name> \
-    --port=8080:8080 \\
+    -p 8080:8080 \
+    -d slaaavyn/smart-home
 ~~~ 
 
 ## Docs

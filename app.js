@@ -33,8 +33,8 @@ app.use((err, req, res, next) => {
 });
 
 // server run
-app.listen(config.port, 'localhost', () => {
-  console.log(`Server listens http://localhost:${config.port}`);
+app.listen(config.port, '0.0.0.0', () => {
+  console.log(`Server listens http://0.0.0.0:${config.port}`);
 });
 
 module.exports = app;
