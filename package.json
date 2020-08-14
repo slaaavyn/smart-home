@@ -6,7 +6,7 @@
     "start": "node app.js",
     "develop": "nodemon app.js",
     "test": "mocha test/ --timeout 10000 --exit",
-    "apiDoc": "apidoc -i ./routes -o ./doc"
+    "apiDoc": "apidoc -i ./routes -o ./docs"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
