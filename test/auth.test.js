@@ -25,10 +25,19 @@ describe('Auth API test', () => {
         role: 'ROLE_ADMIN'
     };
 
-    beforeEach((done) => {
-        //remove all users from db
+    before((done) => {
+        // clear users and create default
         User.deleteMany({}).then(() => {
-            done();
+            User.create(userObj).save().then((u) => {
+                u.should.be.a('object');
+                u.should.have.property('_id');
+                u.should.have.property('username').eql(userObj.username);
+                u.should.have.property('firstName').eql(userObj.firstName);
+                u.should.have.property('lastName').eql(userObj.lastName);
+                u.should.have.property('role').eql(userObj.role);
+
+                done();
+            });
         });
     });
 
@@ -39,29 +48,53 @@ describe('Auth API test', () => {
         });
     });
 
-    it('it should crate user, authorize and return tokens', (done) => {
-        User.create(userObj).save().then((u) => {
-            u.should.be.a('object');
-            u.should.have.property('_id');
-            u.should.have.property('username').eql(userObj.username);
-            u.should.have.property('firstName').eql(userObj.firstName);
-            u.should.have.property('lastName').eql(userObj.lastName);
-            u.should.have.property('role').eql(userObj.role);
+    it('it should authorize and return tokens', (done) => {
+        chai.request(server)
+            .post('/api/auth')
+            .send({username: userObj.username, password: userObj.password})
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('user');
+                res.body.should.have.property('token');
+                res.body.should.have.property('tokenExpired');
+                res.body.should.have.property('refreshToken');
+                res.body.should.have.property('refreshTokenExpired');
 
-            chai.request(server)
-                .post('/api/auth')
-                .send({username: userObj.username, password: userObj.password})
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('user');
-                    res.body.should.have.property('token');
-                    res.body.should.have.property('tokenExpired');
-                    res.body.should.have.property('refreshToken');
-                    res.body.should.have.property('refreshTokenExpired');
-
-                    done();
-                });
-        })
+                done();
+            });
     });
+
+    it('it should authorize and re authorize with refresh token', (done) => {
+        chai.request(server)
+            .post('/api/auth')
+            .send({username: userObj.username, password: userObj.password})
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('user');
+                res.body.should.have.property('token');
+                res.body.should.have.property('tokenExpired');
+                res.body.should.have.property('refreshToken');
+                res.body.should.have.property('refreshTokenExpired');
+
+                const refreshToken = res.body.refreshToken;
+                chai.request(server)
+                    .post('/api/auth/refresh-token')
+                    .send({username: userObj.username, refreshToken: refreshToken})
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('user');
+                        res.body.should.have.property('token');
+                        res.body.should.have.property('tokenExpired');
+                        res.body.should.have.property('refreshToken');
+                        res.body.should.have.property('refreshTokenExpired');
+
+                        done();
+                    });
+            });
+    });
+
+
 });
