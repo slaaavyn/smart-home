@@ -27,6 +27,9 @@ const router = express.Router();
  * @apiSuccess {String} response.user.lastName LastName of the user
  * @apiSuccess {String} response.user.role Role of the user
  * @apiSuccess {String} response.token JWT
+ * @apiSuccess {String} response.tokenExpired Date when JWT expires
+ * @apiSuccess {String} response.refreshToken Refresh token
+ * @apiSuccess {String} response.refreshTokenExpired Date when refresh token expires
  *
  * @apiSuccessExample Success Response:
  *     HTTP/1.1 200 Success
@@ -39,6 +42,9 @@ const router = express.Router();
  *        "role": "ROLE_ADMIN"
  *       },
  *       "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ..."
+ *       "tokenExpired": "2020-08-15T14:19:41.459Z",
+ *       "refreshToken": "ff2d9f34-971b-49d8-98a5-1964a6b52c59",
+ *       "refreshTokenExpired": "2020-08-22T14:19:41.459Z"
  *     }
  *
  * @apiUse InternalServerError
@@ -70,6 +76,9 @@ router.post('/', validators.auth, authCtrl.authenticate);
  * @apiSuccess {String} response.user.lastName LastName of the user
  * @apiSuccess {String} response.user.role Role of the user
  * @apiSuccess {String} response.token JWT
+ * @apiSuccess {String} response.tokenExpired Date when JWT expires
+ * @apiSuccess {String} response.refreshToken Refresh token
+ * @apiSuccess {String} response.refreshTokenExpired Date when refresh token expires
  *
  * @apiSuccessExample Success Response:
  *     HTTP/1.1 200 Success
