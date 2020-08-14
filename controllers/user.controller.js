@@ -5,9 +5,7 @@ const userRole = require('../utils/roles.type');
 module.exports.load = (req, res, next, id) => {
     User.getUserById(id)
         .then((user) => {
-            if (!user) {
-                return next(createError(404, 'User not found'));
-            }
+            if (!user) return next(createError(404, 'User not found'));
 
             req.dbUser = user;
             return next();
@@ -16,10 +14,6 @@ module.exports.load = (req, res, next, id) => {
 }
 
 module.exports.create = async (req, res, next) => {
-    if(!req.body.username) {
-        return next(createError(403));
-    }
-
     if (await User.isUserExist(req.body.username)) {
         return next(createError(409, `User with username: ${req.body.username} already exist`));
     }
@@ -66,13 +60,10 @@ module.exports.updateUser = async (req, res, next) => {
 }
 
 module.exports.changeUserPassword = async (req, res, next) => {
-    //Get parameters from the body
-    const {oldPassword, newPassword} = req.body;
-    if (!(oldPassword && newPassword)) {
-        return next(createError(400, 'parameters not valid'));
-    }
-
     try {
+        //Get parameters from the body
+        const {oldPassword, newPassword} = req.body;
+
         // get user from db
         let user = await User.getUserById(req.user.id);
 

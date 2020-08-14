@@ -47,12 +47,16 @@ module.exports.generateJwt = (user) => {
     const expirationDate = new Date(today);
     expirationDate.setDate(today.getDate() + 1);
 
-    return config.jwtPrefix + jwt.sign({
-        id: user._id,
-        username: user.username,
-        role: user.role,
-        exp: parseInt(expirationDate.getTime() / 1000, 10),
-    }, config.jwtSecret);
+    return {
+        token: config.jwtPrefix + jwt.sign({
+            id: user._id,
+            username: user.username,
+            role: user.role,
+            exp: parseInt(expirationDate.getTime() / 1000, 10),
+        }, config.jwtSecret),
+
+        expirationDate: expirationDate
+    }
 }
 
 function isIncomingTokenValid(token) {
