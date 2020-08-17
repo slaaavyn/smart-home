@@ -337,6 +337,505 @@
   },
   {
     "type": "post",
+    "url": "/api/room?roomName=Main",
+    "title": "Create room",
+    "name": "CreateRoom",
+    "group": "Room",
+    "permission": [
+      {
+        "name": "ROLE_ADMIN"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roomName",
+            "description": "<p>Name for the room</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "room",
+            "description": "<p>Room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "room._id",
+            "description": "<p>ID of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "room.name",
+            "description": "<p>name of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "room.devices",
+            "description": "<p>List of devices in room</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success Response:",
+          "content": "HTTP/1.1 200 Success\n  {\n   \"_id\":\n   \"name\": \"Main\",\n   \"devices\": []\n  }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/room.route.js",
+    "groupTitle": "Room",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "Object",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>header value must follow the pattern &quot;Bearer [token sting]&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Authorization Header Example:",
+          "content": "{\n  \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>The JWT is missing or not valid.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>There was an internal error when trying to serve the request</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Conflict",
+            "description": "<p>When item must be unique and similar item already exists</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Unauthorized Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n   \"status\": 401,\n   \"message\": \"No authorization token was found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "InternalError Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"status\": 500,\n  \"message\": \"There was an internal error when trying to serve the request\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Conflict Response:",
+          "content": "HTTP/1.1 409 Conflict\n{\n   \"status\": 409,\n   \"message\": \"User already exist\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "url": "/api/room/:roomId",
+    "title": "Get device by id",
+    "name": "GetRoom",
+    "group": "Room",
+    "permission": [
+      {
+        "name": "[ROLE_ADMIN, ROLE_USER]"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roomId",
+            "description": "<p>Room unique ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "room",
+            "description": "<p>Room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "room._id",
+            "description": "<p>ID of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>name of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "room.devices",
+            "description": "<p>List of devices in room</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success Response:",
+          "content": "HTTP/1.1 200 Success\n{\n \"_id\":\n \"name\": \"a_room\",\n \"devices\": []\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/room.route.js",
+    "groupTitle": "Room",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "Object",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>header value must follow the pattern &quot;Bearer [token sting]&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Authorization Header Example:",
+          "content": "{\n  \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>The JWT is missing or not valid.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>There was an internal error when trying to serve the request</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Unauthorized Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n   \"status\": 401,\n   \"message\": \"No authorization token was found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "InternalError Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"status\": 500,\n  \"message\": \"There was an internal error when trying to serve the request\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "url": "/api/room",
+    "title": "List all rooms",
+    "name": "GetRoomLst",
+    "group": "Room",
+    "permission": [
+      {
+        "name": "[ROLE_ADMIN, ROLE_USER]"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "rooms",
+            "description": "<p>List of rooms</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "rooms.room",
+            "description": "<p>Room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rooms.room._id",
+            "description": "<p>ID of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rooms.name",
+            "description": "<p>name of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "rooms.room.devices",
+            "description": "<p>List of devices in room</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success Response:",
+          "content": "HTTP/1.1 200 Success\n[\n  {\n   \"_id\":\n   \"name\": \"a_room\",\n   \"devices\": []\n  },\n  {\n   \"_id\":\n   \"username\": \"b_room\",\n   \"devices\": []\n  }\n]",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/room.route.js",
+    "groupTitle": "Room",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "Object",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>header value must follow the pattern &quot;Bearer [token sting]&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Authorization Header Example:",
+          "content": "{\n  \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>The JWT is missing or not valid.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>There was an internal error when trying to serve the request</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Unauthorized Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n   \"status\": 401,\n   \"message\": \"No authorization token was found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "InternalError Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"status\": 500,\n  \"message\": \"There was an internal error when trying to serve the request\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "put",
+    "url": "/api/room/:roomId?roomName=newName",
+    "title": "Update room name",
+    "name": "UpdateRoom",
+    "group": "Room",
+    "permission": [
+      {
+        "name": "ROLE_ADMIN"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roomId",
+            "description": "<p>Room unique ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roomName",
+            "description": "<p>Name for the room</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "room",
+            "description": "<p>Room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "room._id",
+            "description": "<p>ID of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "room.name",
+            "description": "<p>name of the room</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "room.devices",
+            "description": "<p>List of devices in room</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success Response:",
+          "content": "HTTP/1.1 200 Success\n  {\n   \"_id\":\n   \"name\": \"newName\",\n   \"devices\": []\n  }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/room.route.js",
+    "groupTitle": "Room",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "Object",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>header value must follow the pattern &quot;Bearer [token sting]&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Authorization Header Example:",
+          "content": "{\n  \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>The JWT is missing or not valid.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>There was an internal error when trying to serve the request</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Conflict",
+            "description": "<p>When item must be unique and similar item already exists</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Unauthorized Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n   \"status\": 401,\n   \"message\": \"No authorization token was found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "InternalError Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"status\": 500,\n  \"message\": \"There was an internal error when trying to serve the request\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Conflict Response:",
+          "content": "HTTP/1.1 409 Conflict\n{\n   \"status\": 409,\n   \"message\": \"User already exist\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "post",
     "url": "/api/user/create",
     "title": "Create user",
     "name": "CreateUser",
@@ -514,6 +1013,104 @@
         {
           "title": "Conflict Response:",
           "content": "HTTP/1.1 409 Conflict\n{\n   \"status\": 409,\n   \"message\": \"User already exist\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "delete",
+    "url": "/api/room/:roomId",
+    "title": "Delete room by id",
+    "name": "DeleteUser",
+    "group": "User",
+    "permission": [
+      {
+        "name": "ROLE_ADMIN"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roomId",
+            "description": "<p>Room unique ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response:",
+          "content": "HTTP/1.1 200 Success",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/room.route.js",
+    "groupTitle": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "Object",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>header value must follow the pattern &quot;Bearer [token sting]&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Authorization Header Example:",
+          "content": "{\n  \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>The JWT is missing or not valid.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>There was an internal error when trying to serve the request</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>When (item || route) not exists.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Unauthorized Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n   \"status\": 401,\n   \"message\": \"No authorization token was found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "InternalError Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"status\": 500,\n  \"message\": \"There was an internal error when trying to serve the request\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "NotFound Response:",
+          "content": "HTTP/1.1 404 Not found\n{\n   \"status\": 404,\n   \"message\": \"User not found\"\n}",
           "type": "json"
         }
       ]
