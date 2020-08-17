@@ -31,22 +31,24 @@ describe('User API test', () => {
     };
 
     before((done) => {
-        // create default admin user and made auth to get token
-        User.create(adminObj).save().then((u) => {
-            user = u;
+        User.deleteMany().then(()=>{
+            // create default admin user and made auth to get token
+            User.create(adminObj).save().then((u) => {
+                user = u;
 
-            chai.request(server)
-                .post('/api/auth')
-                .send({username: 'admin', password: 'admin'})
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('token');
+                chai.request(server)
+                    .post('/api/auth')
+                    .send({username: 'admin', password: 'admin'})
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('token');
 
-                    token = res.body.token;
-                    done();
-                });
-        })
+                        token = res.body.token;
+                        done();
+                    });
+            });
+        });
     });
 
     beforeEach((done) => {
