@@ -30,3 +30,5 @@ $ docker run \
 ## Docs
 
 * [REST api doc](https://slaaavyn.github.io/smart-home/)
+
+Default username/password: root/toor
