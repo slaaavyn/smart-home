@@ -32,8 +32,14 @@ app.use((err, req, res, next) => {
   });
 });
 
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {});
+io.on('connection', socket => {
+  console.log(socket);
+});
+
 // server run
-app.listen(config.port, '0.0.0.0', () => {
+server.listen(config.port, '0.0.0.0', () => {
   console.log(`Server listens http://0.0.0.0:${config.port}`);
 });
 
