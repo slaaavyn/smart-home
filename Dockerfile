@@ -3,5 +3,5 @@ WORKDIR /usr/src/app
 COPY package.json package.json
 RUN npm install
 COPY --chown=node:node . .
-EXPOSE 8080
+EXPOSE 8080 1883
 CMD [ "node", "app.js" ]

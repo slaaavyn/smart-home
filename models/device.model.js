@@ -38,12 +38,12 @@ class Device extends Document {
         return 'devices';
     }
 
-    static async getDeviceById(id) {
-        return await Device.findOne({_id: id});
+    static async getDeviceByUId(uid) {
+        return await Device.findOne({uid: uid});
     }
 
-    static async isDeviceExist(deviceId) {
-        return !!(await Device.findOne({deviceId}));
+    static async isDeviceExist(uid) {
+        return !!(await Device.findOne({uid}));
     }
 }
 
